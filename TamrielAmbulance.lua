@@ -70,6 +70,7 @@ end
 function TamrielAmbulance.OnResurrectionResultReceived(eventCode, targetCharacterName, result, targetDisplayName)
   if(result == RESURRECT_RESULT_SUCCESS) then
     TamrielAmbulance.savedVariables.resurrectionCount = TamrielAmbulance.savedVariables.resurrectionCount + 1;
+    TamrielAmbulance.UpdateWindow()
   end
 end
 
