@@ -7,6 +7,7 @@ function TamrielAmbulance.InitializeLAM()
 
 	--Test if addon is launched for first time for each value picked by user
 	if saveData.showOnlyInGroup == nil then saveData.showOnlyInGroup = false end
+	if saveData.resetOnGroupJoined == nil then saveData.resetOnGroupJoined = false end
 	if saveData.displayByPlayer == nil then saveData.displayByPlayer = false end
 
 	local settingsPanel
@@ -31,6 +32,16 @@ function TamrielAmbulance.InitializeLAM()
 			getFunc = function() return saveData.showOnlyInGroup end,
 			setFunc = function(value)
 						saveData.showOnlyInGroup = value
+						TamrielAmbulance.UpdateDisplayCondition()
+			end
+		},
+		{
+			type = "checkbox",
+			name = "Reset the counter when joining a group",
+			tooltip = "Enable this option to reset the counter whenever you join a group",
+			getFunc = function() return saveData.resetOnGroupJoined end,
+			setFunc = function(value)
+						saveData.resetOnGroupJoined = value
 			end
 		},
 		{

@@ -4,8 +4,12 @@ TamrielAmbulance = {}
 TamrielAmbulance.name = "TamrielAmbulance"
 TamrielAmbulance.coloredName = "|cff0000Tamriel |c000000Ambulance|r"
 TamrielAmbulance.author = "|cff6600Infenix|r"
-TamrielAmbulance.version = "1.0.0"
+TamrielAmbulance.version = "1.1.0"
 TamrielAmbulance.website = "https://github.com/ImInfenix/TamrielAmbulance"
+
+-------------------------------------------------------------------------------------------------------------------------
+-- Initialization
+-------------------------------------------------------------------------------------------------------------------------
 
 function TamrielAmbulance.Initialize()
   TamrielAmbulance.savedVariables = ZO_SavedVars:NewAccountWide("TamrielAmbulance_SavedVariables", 1, nil, {})
@@ -18,7 +22,9 @@ function TamrielAmbulance.Initialize()
   if TamrielAmbulance.savedVariables.GUILeft == nil then TamrielAmbulance.savedVariables.GUILeft = 0 end
   if TamrielAmbulance.savedVariables.GUITop == nil then TamrielAmbulance.savedVariables.GUITop = 540 end
   if TamrielAmbulance.savedVariables.resurrectionCount == nil then TamrielAmbulance.savedVariables.resurrectionCount = 0 end
-  if TamrielAmbulance.savedVariables.shouldDisplay == nil then TamrielAmbulance.savedVariables.shouldDisplay = true end
+
+  TamrielAmbulance.shouldDisplay = true
+  TamrielAmbulance.UpdateDisplayCondition()
 
   local left = TamrielAmbulance.savedVariables.GUILeft
   local top = TamrielAmbulance.savedVariables.GUITop
@@ -35,6 +41,8 @@ function TamrielAmbulance.Initialize()
 
   --AddOn Tracking
   EVENT_MANAGER:RegisterForEvent(TamrielAmbulance.name, EVENT_RESURRECT_RESULT, TamrielAmbulance.OnResurrectionResultReceived)
+  EVENT_MANAGER:RegisterForEvent(TamrielAmbulance.name, EVENT_GROUP_MEMBER_JOINED, TamrielAmbulance.OnMemberJoinedGroup)
+  EVENT_MANAGER:RegisterForEvent(TamrielAmbulance.name, EVENT_GROUP_MEMBER_LEFT, TamrielAmbulance.OnMemberLeftGroup)
 
   TamrielAmbulance.UpdateWindow()
 end
@@ -55,11 +63,49 @@ function TamrielAmbulance.OnPlayerActivated(eventCode)
     EVENT_MANAGER:UnregisterForEvent(addonName, eventCode)
 end
 
+-------------------------------------------------------------------------------------------------------------------------
+-- Core AddOn Functions & Callbacks
+-------------------------------------------------------------------------------------------------------------------------
+
 function TamrielAmbulance.OnResurrectionResultReceived(eventCode, targetCharacterName, result, targetDisplayName)
   if(result == RESURRECT_RESULT_SUCCESS) then
     TamrielAmbulance.savedVariables.resurrectionCount = TamrielAmbulance.savedVariables.resurrectionCount + 1;
   end
 end
+
+function TamrielAmbulance.UpdateDisplayCondition()
+  if(TamrielAmbulance.savedVariables.showOnlyInGroup) then
+    TamrielAmbulance.shouldDisplay = IsPlayerInGroup(GetUnitName("player"))
+  else TamrielAmbulance.shouldDisplay = true
+  end
+end
+
+-------------------------------------------------------------------------------------------------------------------------
+-- Other Callbacks
+-------------------------------------------------------------------------------------------------------------------------
+
+function TamrielAmbulance.OnMemberJoinedGroup(eventCode, memberCharacterName, memberDisplayName, isLocalPlayer)
+  if(isLocalPlayer) then
+    if(TamrielAmbulance.savedVariables.showOnlyInGroup) then
+      TamrielAmbulance.shouldDisplay = true
+      TamrielAmbulance.ToggleWindow(true)
+    end
+    if(TamrielAmbulance.savedVariables.resetOnGroupJoined) then
+      TamrielAmbulance.ResetCounter()
+    end
+  end
+end
+
+function TamrielAmbulance.OnMemberLeftGroup(eventCode, memberCharacterName, reason, isLocalPlayer, isLeader, memberDisplayName, actionRequiredVote)
+  if(isLocalPlayer and TamrielAmbulance.savedVariables.showOnlyInGroup) then
+    TamrielAmbulance.shouldDisplay = false
+    TamrielAmbulance.ToggleWindow(false)
+  end
+end
+
+-------------------------------------------------------------------------------------------------------------------------
+-- UI Handling
+-------------------------------------------------------------------------------------------------------------------------
 
 function TamrielAmbulance.LayerPopped(eventCode, layerIndex, activeLayerIndex)
   TamrielAmbulance.ToggleWindow(activeLayerIndex == 2)
@@ -75,11 +121,11 @@ function TamrielAmbulance.SaveWindowPosition()
 end
 
 function TamrielAmbulance.ToggleWindow(value)
-  GUI_TamrielAmbulance:SetHidden(not value or not TamrielAmbulance.savedVariables.shouldDisplay)
+  GUI_TamrielAmbulance:SetHidden(not value or not TamrielAmbulance.shouldDisplay)
 end
 
 function TamrielAmbulance.SwitchDisplayStatus()
-  TamrielAmbulance.savedVariables.shouldDisplay = not TamrielAmbulance.savedVariables.shouldDisplay
+  TamrielAmbulance.shouldDisplay = not TamrielAmbulance.shouldDisplay
   TamrielAmbulance.ToggleWindow(true)
 end
 
@@ -92,7 +138,15 @@ function TamrielAmbulance.UpdateWindow()
   GUI_TamrielAmbulanceCounter:SetText(TamrielAmbulance.savedVariables.resurrectionCount)
 end
 
+-------------------------------------------------------------------------------------------------------------------------
+-- Entry Point
+-------------------------------------------------------------------------------------------------------------------------
+
 EVENT_MANAGER:RegisterForEvent(TamrielAmbulance.name, EVENT_ADD_ON_LOADED, TamrielAmbulance.OnAddOnLoaded)
+
+-------------------------------------------------------------------------------------------------------------------------
+-- AddOn Commands
+-------------------------------------------------------------------------------------------------------------------------
 
 SLASH_COMMANDS["/ambulance"] = TamrielAmbulance.SwitchDisplayStatus
 SLASH_COMMANDS["/resetambulance"] = TamrielAmbulance.ResetCounter
