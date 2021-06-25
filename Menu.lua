@@ -15,7 +15,7 @@ function TamrielAmbulance.InitializeLAM()
 	local settingsPanelName = TamrielAmbulance.name .. "SettingsPanel"
 	local settingsPanelData = {
 	  type = "panel",
-	  name = TamrielAmbulance.name,
+	  name = TamrielAmbulance.prettyName,
 	  author = TamrielAmbulance.author,
 	  version = TamrielAmbulance.version,
 	  website = TamrielAmbulance.website

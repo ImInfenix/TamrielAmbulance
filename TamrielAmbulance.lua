@@ -2,6 +2,7 @@ TamrielAmbulance = {}
 
 --AddOn variables
 TamrielAmbulance.name = "TamrielAmbulance"
+TamrielAmbulance.prettyName = "Tamriel Ambulance"
 TamrielAmbulance.coloredName = "|cff0000Tamriel |c000000Ambulance|r"
 TamrielAmbulance.author = "|cff6600Infenix|r"
 TamrielAmbulance.version = "1.1.2"
