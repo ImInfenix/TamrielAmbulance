@@ -4,7 +4,7 @@ TamrielAmbulance = {}
 TamrielAmbulance.name = "TamrielAmbulance"
 TamrielAmbulance.coloredName = "|cff0000Tamriel |c000000Ambulance|r"
 TamrielAmbulance.author = "|cff6600Infenix|r"
-TamrielAmbulance.version = "1.1.0"
+TamrielAmbulance.version = "1.1.2"
 TamrielAmbulance.website = "https://github.com/ImInfenix/TamrielAmbulance"
 
 -------------------------------------------------------------------------------------------------------------------------
@@ -31,6 +31,7 @@ function TamrielAmbulance.Initialize()
 
   GUI_TamrielAmbulance:ClearAnchors()
   GUI_TamrielAmbulance:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
+  TamrielAmbulance.UpdateFontSize()
 
   --AddOn Loading
   EVENT_MANAGER:RegisterForEvent(TamrielAmbulance.name, EVENT_PLAYER_ACTIVATED, TamrielAmbulance.OnPlayerActivated)
@@ -64,7 +65,7 @@ function TamrielAmbulance.OnPlayerActivated(eventCode)
 end
 
 -------------------------------------------------------------------------------------------------------------------------
--- Core AddOn Functions & Callbacks
+-- Core AddOn Callbacks
 -------------------------------------------------------------------------------------------------------------------------
 
 function TamrielAmbulance.OnResurrectionResultReceived(eventCode, targetCharacterName, result, targetDisplayName)
@@ -73,6 +74,10 @@ function TamrielAmbulance.OnResurrectionResultReceived(eventCode, targetCharacte
     TamrielAmbulance.UpdateWindow()
   end
 end
+
+-------------------------------------------------------------------------------------------------------------------------
+-- Core AddOn Functions
+-------------------------------------------------------------------------------------------------------------------------
 
 function TamrielAmbulance.UpdateDisplayCondition()
   if(TamrielAmbulance.savedVariables.showOnlyInGroup) then
@@ -137,6 +142,15 @@ end
 
 function TamrielAmbulance.UpdateWindow()
   GUI_TamrielAmbulanceCounter:SetText(TamrielAmbulance.savedVariables.resurrectionCount)
+end
+
+function TamrielAmbulance.UpdateFontSize()
+  local font = "ZoFontWinH3"
+  if(TamrielAmbulance.savedVariables.fontSize == "Large") then font = "ZoFontWinH2" end
+  if(TamrielAmbulance.savedVariables.fontSize == "Small") then font = "ZoFontWinH4" end
+  if(TamrielAmbulance.savedVariables.fontSize == "Tiny") then font = "ZoFontWinH5" end
+  GUI_TamrielAmbulanceTitle:SetFont(font)
+  GUI_TamrielAmbulanceCounter:SetFont(font)
 end
 
 -------------------------------------------------------------------------------------------------------------------------

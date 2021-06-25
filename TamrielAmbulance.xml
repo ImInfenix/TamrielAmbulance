@@ -15,11 +15,11 @@
           <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
         </Texture>
 
-        <Label name="$(parent)Title" width="80" height="25" font="ZoFontWinH3" inheritAlpha="true" color="FFFFFF" wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="LEFT" text="Resurrected">
+        <Label name="$(parent)Title" width="80" height="25" inheritAlpha="true" color="FFFFFF" wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="LEFT" text="Resurrected">
           <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" />
         </Label>
         
-        <Label name="$(parent)Counter" width="80" height="25" font="ZoFontWinH3" fontSize="12" inheritAlpha="true" color="FFFFFF" wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="LEFT" text="52">
+        <Label name="$(parent)Counter" width="80" height="25" fontSize="12" inheritAlpha="true" color="FFFFFF" wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="LEFT" text="ambulance_counter">
           <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="25"/>
         </Label>
       </Controls>

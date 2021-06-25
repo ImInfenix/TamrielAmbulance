@@ -9,6 +9,7 @@ function TamrielAmbulance.InitializeLAM()
 	if saveData.showOnlyInGroup == nil then saveData.showOnlyInGroup = false end
 	if saveData.resetOnGroupJoined == nil then saveData.resetOnGroupJoined = false end
 	if saveData.displayByPlayer == nil then saveData.displayByPlayer = false end
+	if saveData.fontSize == nil then saveData.fontSize = "Medium" end
 
 	local settingsPanel
 	local settingsPanelName = TamrielAmbulance.name .. "SettingsPanel"
@@ -52,7 +53,18 @@ function TamrielAmbulance.InitializeLAM()
 			setFunc = function(value)
 						saveData.displayByPlayer = value
 			end
-		}
+		},
+		{
+			type = "dropdown",
+			name = "Font Size",
+			tooltip = "The size of the displayed text",
+			choices = {"Large", "Medium", "Small", "Tiny"},
+			getFunc = function() return saveData.fontSize end,
+			setFunc = function(value)
+				saveData.fontSize = value
+				TamrielAmbulance.UpdateFontSize()
+			end,
+		}		  
 	}
 
 	settingsPanel = LAM:RegisterAddonPanel(settingsPanelName, settingsPanelData)
