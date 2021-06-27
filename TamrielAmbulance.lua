@@ -57,6 +57,13 @@ function TamrielAmbulance.Initialize()
 		TamrielAmbulance.OnMemberJoinedGroup)
 	EVENT_MANAGER:RegisterForEvent(TamrielAmbulance.name, EVENT_GROUP_MEMBER_LEFT, TamrielAmbulance.OnMemberLeftGroup)
 
+	TamrielAmbulance.savedVariables.recordedResurrections["Pra"] = 5
+	TamrielAmbulance.savedVariables.recordedResurrections["Zdffa"] = 8
+	TamrielAmbulance.savedVariables.recordedResurrections["Tgtezf"] = 2
+	TamrielAmbulance.savedVariables.recordedResurrections["Gyibhdiz"] = 16
+	TamrielAmbulance.savedVariables.recordedResurrections["Zzujvu"] = 3
+	TamrielAmbulance.savedVariables.recordedResurrections["Idhizu"] = 0
+
 	TamrielAmbulance.UpdateWindow()
 end
 
@@ -100,6 +107,29 @@ function TamrielAmbulance.UpdateDisplayCondition()
 	else
 		TamrielAmbulance.shouldDisplay = true
 	end
+end
+
+local function spairs(t, order)
+    -- collect the keys
+    local keys = {}
+    for k in pairs(t) do keys[#keys+1] = k end
+
+    -- if order function given, sort by it by passing the table and keys a, b,
+    -- otherwise just sort the keys 
+    if order then
+        table.sort(keys, function(a,b) return order(t, a, b) end)
+    else
+        table.sort(keys)
+    end
+
+    -- return the iterator function
+    local i = 0
+    return function()
+        i = i + 1
+        if keys[i] then
+            return keys[i], t[keys[i]]
+        end
+    end
 end
 
 -------------------------------------------------------------------------------------------------------------------------
@@ -170,15 +200,7 @@ function TamrielAmbulance.UpdateWindow()
 	else
 		local playersNames = nil
 
-		local ordered_keys = {}
-
-		for key in pairs(resurrectionsTable) do
-			table.insert(ordered_keys, key)
-		end
-
-		table.sort(ordered_keys)
-		for i = 1, #ordered_keys do
-			local key, value = ordered_keys[i], resurrectionsTable[ordered_keys[i]]
+		for key, value in spairs(resurrectionsTable, function(t,a,b) return t[b] < t[a] end) do
 			local toPrint = key .. " " .. value
 			if(playersNames == nil) then playersNames = toPrint
 			else playersNames = playersNames .. "\n" .. toPrint end
