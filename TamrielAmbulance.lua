@@ -39,8 +39,6 @@ function TamrielAmbulance.Initialize()
 		TamrielAmbulance.savedVariables.recordedResurrections = {}
 	end
 
-	TamrielAmbulance.savedVariables.recordedResurrections["Plop"] = 5
-
 	TamrielAmbulance.shouldDisplay = true
 	TamrielAmbulance.UpdateDisplayCondition()
 
