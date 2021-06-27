@@ -14,7 +14,13 @@ TamrielAmbulance.website = "https://github.com/ImInfenix/TamrielAmbulance"
 
 function TamrielAmbulance.Initialize()
 	TamrielAmbulance.savedVariables = ZO_SavedVars:NewAccountWide("TamrielAmbulance_SavedVariables", 1, nil, {})
-	TamrielAmbulance.displayAddonLoadedMessage = TamrielAmbulance.savedVariables.displayAddonLoadedMessage
+
+	-- Fonts
+	TamrielAmbulance.fonts = {
+		["Large"] = 2,
+		["Medium"] = 3,
+		["Small"] = 4
+	}
 
 	-- LibAddonMenu-2.0 Initializing
 	TamrielAmbulance.InitializeLAM()
@@ -32,6 +38,8 @@ function TamrielAmbulance.Initialize()
 	if TamrielAmbulance.savedVariables.recordedResurrections == nil then
 		TamrielAmbulance.savedVariables.recordedResurrections = {}
 	end
+
+	TamrielAmbulance.savedVariables.recordedResurrections["Plop"] = 5
 
 	TamrielAmbulance.shouldDisplay = true
 	TamrielAmbulance.UpdateDisplayCondition()
@@ -56,13 +64,6 @@ function TamrielAmbulance.Initialize()
 	EVENT_MANAGER:RegisterForEvent(TamrielAmbulance.name, EVENT_GROUP_MEMBER_JOINED,
 		TamrielAmbulance.OnMemberJoinedGroup)
 	EVENT_MANAGER:RegisterForEvent(TamrielAmbulance.name, EVENT_GROUP_MEMBER_LEFT, TamrielAmbulance.OnMemberLeftGroup)
-
-	TamrielAmbulance.savedVariables.recordedResurrections["Pra"] = 5
-	TamrielAmbulance.savedVariables.recordedResurrections["Zdffa"] = 8
-	TamrielAmbulance.savedVariables.recordedResurrections["Tgtezf"] = 2
-	TamrielAmbulance.savedVariables.recordedResurrections["Gyibhdiz"] = 16
-	TamrielAmbulance.savedVariables.recordedResurrections["Zzujvu"] = 3
-	TamrielAmbulance.savedVariables.recordedResurrections["Idhizu"] = 0
 
 	TamrielAmbulance.UpdateWindow()
 end
@@ -90,9 +91,12 @@ end
 function TamrielAmbulance.OnResurrectionResultReceived(eventCode, targetCharacterName, result, targetDisplayName)
 	if (result == RESURRECT_RESULT_SUCCESS) then
 		local resurrectionsTable = TamrielAmbulance.savedVariables.recordedResurrections
-		local currentCount = resurrectionsTable[targetCharacterName]
-		if(currentCount == nil) then resurrectionsTable[targetCharacterName] = 1
-		else resurrectionsTable[targetCharacterName] = currentCount + 1 end
+		local currentCount = resurrectionsTable[targetDisplayName]
+		if (currentCount == nil) then
+			resurrectionsTable[targetDisplayName] = 1
+		else
+			resurrectionsTable[targetDisplayName] = currentCount + 1
+		end
 		TamrielAmbulance.UpdateWindow()
 	end
 end
@@ -109,27 +113,40 @@ function TamrielAmbulance.UpdateDisplayCondition()
 	end
 end
 
+
+function TamrielAmbulance.GetPlayersCount()
+	local counter = 0
+	for _ in pairs(TamrielAmbulance.savedVariables.recordedResurrections) do
+		counter = counter + 1
+	end
+	return counter
+end
+
 local function spairs(t, order)
-    -- collect the keys
-    local keys = {}
-    for k in pairs(t) do keys[#keys+1] = k end
+	-- collect the keys
+	local keys = {}
+	for k in pairs(t) do
+		keys[#keys + 1] = k
+	end
 
-    -- if order function given, sort by it by passing the table and keys a, b,
-    -- otherwise just sort the keys 
-    if order then
-        table.sort(keys, function(a,b) return order(t, a, b) end)
-    else
-        table.sort(keys)
-    end
+	-- if order function given, sort by it by passing the table and keys a, b,
+	-- otherwise just sort the keys 
+	if order then
+		table.sort(keys, function(a, b)
+			return order(t, a, b)
+		end)
+	else
+		table.sort(keys)
+	end
 
-    -- return the iterator function
-    local i = 0
-    return function()
-        i = i + 1
-        if keys[i] then
-            return keys[i], t[keys[i]]
-        end
-    end
+	-- return the iterator function
+	local i = 0
+	return function()
+		i = i + 1
+		if keys[i] then
+			return keys[i], t[keys[i]]
+		end
+	end
 end
 
 -------------------------------------------------------------------------------------------------------------------------
@@ -199,30 +216,53 @@ function TamrielAmbulance.UpdateWindow()
 		GUI_TamrielAmbulanceCounter:SetText(resurrectionCount)
 	else
 		local playersNames = nil
+		local playersCounters = nil
 
-		for key, value in spairs(resurrectionsTable, function(t,a,b) return t[b] < t[a] end) do
-			local toPrint = key .. " " .. value
-			if(playersNames == nil) then playersNames = toPrint
-			else playersNames = playersNames .. "\n" .. toPrint end
+		for key, value in spairs(resurrectionsTable, function(t, a, b)
+			return t[b] < t[a]
+		end) do
+			if (playersNames == nil) then
+				playersNames = key
+				playersCounters = value
+			else
+				playersNames = playersNames .. "\n" .. key
+				playersCounters = playersCounters .. "\n" .. value
+			end
 		end
 
-		GUI_TamrielAmbulanceCounter:SetText(playersNames)
+		GUI_TamrielAmbulancePlayersList:SetText(playersNames)
+		GUI_TamrielAmbulanceCountersList:SetText(playersCounters)
 	end
+
+	GUI_TamrielAmbulanceCounter:SetHidden(TamrielAmbulance.savedVariables.displayByPlayer)
+	GUI_TamrielAmbulancePlayersList:SetHidden(not TamrielAmbulance.savedVariables.displayByPlayer)
+	GUI_TamrielAmbulanceCountersList:SetHidden(not TamrielAmbulance.savedVariables.displayByPlayer)
+
+	TamrielAmbulance.UpdateWindowSize()
 end
 
 function TamrielAmbulance.UpdateFontSize()
-	local font = "ZoFontWinH3"
-	if (TamrielAmbulance.savedVariables.fontSize == "Large") then
-		font = "ZoFontWinH2"
+	local fontSize = TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.fontSize]
+	
+	GUI_TamrielAmbulanceTitle:SetFont("ZoFontWinH" .. fontSize)
+	GUI_TamrielAmbulanceCounter:SetFont("ZoFontWinH" .. (fontSize + 1))
+	GUI_TamrielAmbulancePlayersList:SetFont("ZoFontWinH" .. (fontSize + 1))
+	GUI_TamrielAmbulanceCountersList:SetFont("ZoFontWinH" .. (fontSize + 1))
+
+	TamrielAmbulance.UpdateWindowSize()
+end
+
+function TamrielAmbulance.UpdateWindowSize()
+	if(TamrielAmbulance.savedVariables.displayByPlayer) then
+		TamrielAmbulance.globalWidth = 140 + (6 - TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.fontSize]) * 20
+		TamrielAmbulance.globalHeight = 40 + TamrielAmbulance.GetPlayersCount() * (17 + (6 - TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.fontSize]) * 2)
+	else
+		TamrielAmbulance.globalWidth = 100 + (6 - TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.fontSize]) * 15
+		TamrielAmbulance.globalHeight = 50
 	end
-	if (TamrielAmbulance.savedVariables.fontSize == "Small") then
-		font = "ZoFontWinH4"
-	end
-	if (TamrielAmbulance.savedVariables.fontSize == "Tiny") then
-		font = "ZoFontWinH5"
-	end
-	GUI_TamrielAmbulanceTitle:SetFont(font)
-	GUI_TamrielAmbulanceCounter:SetFont(font)
+
+	GUI_TamrielAmbulance:SetDimensions(TamrielAmbulance.globalWidth, TamrielAmbulance.globalHeight)
+	GUI_TamrielAmbulanceBackground:SetDimensions(TamrielAmbulance.globalWidth, TamrielAmbulance.globalHeight)
 end
 
 -------------------------------------------------------------------------------------------------------------------------

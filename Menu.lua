@@ -68,7 +68,7 @@ function TamrielAmbulance.InitializeLAM()
 		type = "dropdown",
 		name = "Font Size",
 		tooltip = "The size of the displayed text",
-		choices = {"Large", "Medium", "Small", "Tiny"},
+		choices = {"Large", "Medium", "Small"},
 		getFunc = function()
 			return saveData.fontSize
 		end,
