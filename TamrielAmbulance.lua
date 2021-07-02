@@ -5,7 +5,7 @@ TamrielAmbulance.name = "TamrielAmbulance"
 TamrielAmbulance.prettyName = "Tamriel Ambulance"
 TamrielAmbulance.coloredName = "|cff0000Tamriel |c000000Ambulance|r"
 TamrielAmbulance.author = "|cff6600Infenix|r"
-TamrielAmbulance.version = "1.2.0"
+TamrielAmbulance.version = "1.2.1"
 TamrielAmbulance.website = "https://github.com/ImInfenix/TamrielAmbulance"
 
 -------------------------------------------------------------------------------------------------------------------------
@@ -263,6 +263,11 @@ function TamrielAmbulance.UpdateWindowSize()
 	GUI_TamrielAmbulanceBackground:SetDimensions(TamrielAmbulance.globalWidth, TamrielAmbulance.globalHeight)
 end
 
+function TamrielAmbulance.SwitchDisplayMode()
+	TamrielAmbulance.savedVariables.displayByPlayer = not TamrielAmbulance.savedVariables.displayByPlayer
+	TamrielAmbulance.UpdateWindow()
+end
+
 -------------------------------------------------------------------------------------------------------------------------
 -- Entry Point
 -------------------------------------------------------------------------------------------------------------------------
@@ -275,3 +280,11 @@ EVENT_MANAGER:RegisterForEvent(TamrielAmbulance.name, EVENT_ADD_ON_LOADED, Tamri
 
 SLASH_COMMANDS["/ambulance"] = TamrielAmbulance.SwitchDisplayStatus
 SLASH_COMMANDS["/resetambulance"] = TamrielAmbulance.ResetCounter
+
+-------------------------------------------------------------------------------------------------------------------------
+-- AddOn Bindings
+-------------------------------------------------------------------------------------------------------------------------
+
+ZO_CreateStringId("SI_BINDING_NAME_TAMRIEL_AMBULANCE_TOGGLE", "Toggle Window")
+ZO_CreateStringId("SI_BINDING_NAME_TAMRIEL_AMBULANCE_RESET", "Reset counter")
+ZO_CreateStringId("SI_BINDING_NAME_TAMRIEL_AMBULANCE_SWITCH", "Switch display mode")
