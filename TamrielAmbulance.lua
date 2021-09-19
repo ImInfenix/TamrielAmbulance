@@ -123,7 +123,7 @@ function TamrielAmbulance.GetPlayersDisplayCount()
     return math.min(TamrielAmbulance.GetPlayersCount(), TamrielAmbulance.savedVariables.maximumPlayerDisplayCount)
 end
 
-local function spairs(t, order)
+local function GetSortedTable(t, order)
     -- collect the keys
     local keys = {}
     for k in pairs(t) do
@@ -221,7 +221,7 @@ function TamrielAmbulance.UpdateWindow(maximumPlayerDisplayCount)
 
         local displayedPlayers = 0
 
-        for key, value in spairs(resurrectionsTable, function(t, a, b)
+        for key, value in GetSortedTable(resurrectionsTable, function(t, a, b)
             return t[b] < t[a]
         end) do
             if (playersNames == nil) then
