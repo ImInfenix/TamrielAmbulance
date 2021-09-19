@@ -262,13 +262,13 @@ function TamrielAmbulance.UpdateFontSize()
 end
 
 function TamrielAmbulance.UpdateWindowSize()
+    local fontDrawSize = TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.fontSize]
+
     if (TamrielAmbulance.savedVariables.displayByPlayer) then
-        TamrielAmbulance.globalWidth = 140 + (6 - TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.fontSize]) * 20
-        TamrielAmbulance.globalHeight = 40 + TamrielAmbulance.GetPlayersDisplayCount() *
-                                            (17 + (6 - TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.fontSize]) *
-                                                2)
+        TamrielAmbulance.globalWidth = 140 + (6 - fontDrawSize) * 20
+        TamrielAmbulance.globalHeight = 40 + TamrielAmbulance.GetPlayersDisplayCount() * (17 + (6 - fontDrawSize) * 2)
     else
-        TamrielAmbulance.globalWidth = 100 + (6 - TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.fontSize]) * 15
+        TamrielAmbulance.globalWidth = 100 + (6 - fontDrawSize) * 15
         TamrielAmbulance.globalHeight = 50
     end
 
