@@ -18,6 +18,9 @@ function TamrielAmbulance.InitializeLAM()
     if saveData.fontSize == nil then
         saveData.fontSize = "Medium"
     end
+    if saveData.maximumPlayerDisplayCount == nil then
+        saveData.maximumPlayerDisplayCount = 12
+    end
 
     local settingsPanel
     local settingsPanelName = TamrielAmbulance.name .. "SettingsPanel"
@@ -75,6 +78,19 @@ function TamrielAmbulance.InitializeLAM()
         setFunc = function(value)
             saveData.fontSize = value
             TamrielAmbulance.UpdateFontSize()
+        end
+    }, {
+        type = "slider",
+        name = "Maximum displayed player in list mode",
+        tooltip = "The maximum lines that can be displayed.",
+        min = 4,
+        max = 32,
+        getFunc = function()
+            return saveData.eventTickets.amountThreshold
+        end,
+        setFunc = function(value)
+            saveData.maximumPlayerDisplayCount = value
+            TamrielAmbulance.UpdateWindow()
         end
     }}
 

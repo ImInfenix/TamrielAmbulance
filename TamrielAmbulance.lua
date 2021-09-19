@@ -5,7 +5,7 @@ TamrielAmbulance.name = "TamrielAmbulance"
 TamrielAmbulance.prettyName = "Tamriel Ambulance"
 TamrielAmbulance.coloredName = "|cff0000Tamriel |c000000Ambulance|r"
 TamrielAmbulance.author = "|cff6600Infenix|r"
-TamrielAmbulance.version = "1.2.2"
+TamrielAmbulance.version = "1.2.3"
 TamrielAmbulance.website = "https://github.com/ImInfenix/TamrielAmbulance"
 
 -------------------------------------------------------------------------------------------------------------------------
@@ -119,6 +119,10 @@ function TamrielAmbulance.GetPlayersCount()
     return counter
 end
 
+function TamrielAmbulance.GetPlayersDisplayCount()
+    return math.min(TamrielAmbulance.GetPlayersCount(), TamrielAmbulance.savedVariables.maximumPlayerDisplayCount)
+end
+
 local function spairs(t, order)
     -- collect the keys
     local keys = {}
@@ -201,7 +205,7 @@ function TamrielAmbulance.ResetCounter()
     TamrielAmbulance.UpdateWindow()
 end
 
-function TamrielAmbulance.UpdateWindow()
+function TamrielAmbulance.UpdateWindow(maximumPlayerDisplayCount)
 
     local resurrectionsTable = TamrielAmbulance.savedVariables.recordedResurrections
 
@@ -215,6 +219,8 @@ function TamrielAmbulance.UpdateWindow()
         local playersNames = nil
         local playersCounters = nil
 
+        local displayedPlayers = 0
+
         for key, value in spairs(resurrectionsTable, function(t, a, b)
             return t[b] < t[a]
         end) do
@@ -224,6 +230,12 @@ function TamrielAmbulance.UpdateWindow()
             else
                 playersNames = playersNames .. "\n" .. key
                 playersCounters = playersCounters .. "\n" .. value
+            end
+
+            displayedPlayers = displayedPlayers + 1
+
+            if (displayedPlayers >= maximumPlayerDisplayCount) then
+                break
             end
         end
 
@@ -252,7 +264,7 @@ end
 function TamrielAmbulance.UpdateWindowSize()
     if (TamrielAmbulance.savedVariables.displayByPlayer) then
         TamrielAmbulance.globalWidth = 140 + (6 - TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.fontSize]) * 20
-        TamrielAmbulance.globalHeight = 40 + TamrielAmbulance.GetPlayersCount() *
+        TamrielAmbulance.globalHeight = 40 + TamrielAmbulance.GetPlayersDisplayCount() *
                                             (17 + (6 - TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.fontSize]) *
                                                 2)
     else
