@@ -15,8 +15,8 @@ function TamrielAmbulance.InitializeLAM()
     if saveData.displayByPlayer == nil then
         saveData.displayByPlayer = false
     end
-    if saveData.fontSize == nil then
-        saveData.fontSize = "Medium"
+    if saveData.selectedFontSize == nil then
+        saveData.selectedFontSize = "Medium"
     end
     if saveData.maximumPlayerDisplayCount == nil then
         saveData.maximumPlayerDisplayCount = 12
@@ -73,10 +73,10 @@ function TamrielAmbulance.InitializeLAM()
         tooltip = "The size of the displayed text",
         choices = {"Large", "Medium", "Small"},
         getFunc = function()
-            return saveData.fontSize
+            return saveData.selectedFontSize
         end,
         setFunc = function(value)
-            saveData.fontSize = value
+            saveData.selectedFontSize = value
             TamrielAmbulance.UpdateFontSize()
         end
     }, {
