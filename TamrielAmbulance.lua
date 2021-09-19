@@ -205,7 +205,7 @@ function TamrielAmbulance.ResetCounter()
     TamrielAmbulance.UpdateWindow()
 end
 
-function TamrielAmbulance.UpdateWindow(maximumPlayerDisplayCount)
+function TamrielAmbulance.UpdateWindow()
 
     local resurrectionsTable = TamrielAmbulance.savedVariables.recordedResurrections
 
@@ -220,6 +220,7 @@ function TamrielAmbulance.UpdateWindow(maximumPlayerDisplayCount)
         local playersCounters = nil
 
         local displayedPlayers = 0
+        local maximumPlayerDisplayCount = TamrielAmbulance.savedVariables.maximumPlayerDisplayCount
 
         for key, value in GetSortedTable(resurrectionsTable, function(t, a, b)
             return t[b] < t[a]
