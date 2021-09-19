@@ -86,7 +86,7 @@ function TamrielAmbulance.InitializeLAM()
         min = 4,
         max = 32,
         getFunc = function()
-            return saveData.eventTickets.amountThreshold
+            return saveData.maximumPlayerDisplayCount
         end,
         setFunc = function(value)
             saveData.maximumPlayerDisplayCount = value
