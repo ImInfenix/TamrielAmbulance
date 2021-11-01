@@ -5,7 +5,7 @@ TamrielAmbulance.name = "TamrielAmbulance"
 TamrielAmbulance.prettyName = "Tamriel Ambulance"
 TamrielAmbulance.coloredName = "|cff0000Tamriel |c000000Ambulance|r"
 TamrielAmbulance.author = "|cff6600Infenix|r"
-TamrielAmbulance.version = "1.2.3"
+TamrielAmbulance.version = "1.2.4"
 TamrielAmbulance.website = "https://github.com/ImInfenix/TamrielAmbulance"
 
 -------------------------------------------------------------------------------------------------------------------------
