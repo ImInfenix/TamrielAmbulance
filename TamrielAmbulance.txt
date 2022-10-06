@@ -2,7 +2,7 @@
 ## Description: Allows you to count how many players you ressurected
 ## Author: |cff6600Infenix
 ## APIVersion: 101035
-## AddOnVersion: 1.2.7
+## AddOnVersion: 1.2.8
 ## SavedVariables: TamrielAmbulance_SavedVariables
 ## DependsOn: LibAddonMenu-2.0
 ## OptionalDependsOn:

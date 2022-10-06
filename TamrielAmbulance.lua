@@ -252,7 +252,7 @@ function TamrielAmbulance.UpdateWindow()
 end
 
 function TamrielAmbulance.UpdateFontSize()
-    local fontSize = TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.fontSize]
+    local fontSize = TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.selectedFontSize]
 
     GUI_TamrielAmbulanceTitle:SetFont("ZoFontWinH" .. fontSize)
     GUI_TamrielAmbulanceCounter:SetFont("ZoFontWinH" .. (fontSize + 1))
@@ -263,7 +263,7 @@ function TamrielAmbulance.UpdateFontSize()
 end
 
 function TamrielAmbulance.UpdateWindowSize()
-    local fontDrawSize = TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.fontSize]
+    local fontDrawSize = TamrielAmbulance.fonts[TamrielAmbulance.savedVariables.selectedFontSize]
 
     if (TamrielAmbulance.savedVariables.displayByPlayer) then
         TamrielAmbulance.globalWidth = 140 + (6 - fontDrawSize) * 20
