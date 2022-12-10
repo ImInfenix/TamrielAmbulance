@@ -9,13 +9,14 @@ on:
 
 env:
   ADDON_NAME: ${{ github.event.repository.name }}
-  ADDON_ARCHIVE_NAME: ${{ env.ADDON_NAME }}.zip
+  ADDON_ARCHIVE_NAME: ${{ github.event.repository.name }}.zip
   ESOUI_TOKEN: ${{ secrets.ADDON_UPDATE_API_TOKEN }}
 
 jobs:
   updateAddon:
     name: Update and deploy $GITHUB_REPOSITORY to version ${{ github.event.inputs.version }}
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
