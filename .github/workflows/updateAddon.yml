@@ -11,10 +11,11 @@ env:
   ADDON_NAME: ${{ github.event.repository.name }}
   ADDON_ARCHIVE_NAME: ${{ github.event.repository.name }}.zip
   ESOUI_TOKEN: ${{ secrets.ADDON_UPDATE_API_TOKEN }}
+  ZIP_EXCLUDE_FILE_PATH: $GITHUB_WORKSPACE/.github/excludeFiles.txt
 
 jobs:
   updateAddon:
-    name: Update and deploy $GITHUB_REPOSITORY to version ${{ github.event.inputs.version }}
+    name: Update and deploy ${{ github.event.repository.name }} to version ${{ github.event.inputs.version }}
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +28,7 @@ jobs:
 
       - name: Zip AddOn content
         run:  |
-            7z a -xr@".\.github\excludeFiles.txt" {{ env.ADDON_ARCHIVE_NAME }}
+            7z a -xr@"${{ env.ZIP_EXCLUDE_FILE_PATH }}" ${{ env.ADDON_ARCHIVE_NAME }}
       
       - name: Upload zip result to Github
         uses: actions/upload-artifact@v2
