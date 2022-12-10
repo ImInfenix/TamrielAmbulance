@@ -1,0 +1,23 @@
+name: Update and deploy AddOn
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The version to update the addon to in the format Major.Minor.Revision'
+        required: true
+
+env:
+  ESOUI_TOKEN: ${{ secrets.ADDON_UPDATE_API_TOKEN }}
+
+jobs:
+  updateAddon:
+    name: Update and deploy $GITHUB_REPOSITORY to version ${{ github.event.inputs.version }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: List all existing addons
+        run: |
+            curl -H "x-api-token: ${{ env.ESOUI_TOKEN }}" https://api.esoui.com/addons/list.json
