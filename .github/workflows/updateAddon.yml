@@ -8,6 +8,8 @@ on:
         required: true
 
 env:
+  ADDON_NAME: ${{ github.event.repository.name }}
+  ADDON_ARCHIVE_NAME: ${{ env.ADDON_NAME }}.zip
   ESOUI_TOKEN: ${{ secrets.ADDON_UPDATE_API_TOKEN }}
 
 jobs:
@@ -21,3 +23,13 @@ jobs:
       - name: List all existing addons
         run: |
             curl -H "x-api-token: ${{ env.ESOUI_TOKEN }}" https://api.esoui.com/addons/list.json
+
+      - name: Zip AddOn content
+        run:  |
+            7z a -xr@".\.github\excludeFiles.txt" {{ env.ADDON_ARCHIVE_NAME }}
+      
+      - name: Upload zip result to Github
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.ADDON_NAME }} ${{ github.event.inputs.version }}
+          path: ${{ env.ADDON_ARCHIVE_NAME }}
