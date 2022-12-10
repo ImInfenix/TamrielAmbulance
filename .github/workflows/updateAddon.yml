@@ -28,7 +28,7 @@ jobs:
 
       - name: Zip AddOn content
         run:  |
-            7z a -xr@"${{ env.ZIP_EXCLUDE_FILE_PATH }}" ${{ env.ADDON_ARCHIVE_NAME }}
+            7z a -xr@"${{ env.ZIP_EXCLUDE_FILE_PATH }}" ${{ env.ADDON_ARCHIVE_NAME }} ../${{ env.ADDON_NAME }}
       
       - name: Upload zip result to Github
         uses: actions/upload-artifact@v2
