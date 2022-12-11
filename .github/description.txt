@@ -1,0 +1,15 @@
+Allows you to count how many players you resurrected
+
+[SIZE="4"]Commands[/SIZE]
+/ambulance -> Show/Hide counter window
+/resetambulance -> Resets the counter
+
+[SIZE="4"]Bindings[/SIZE]
+Show/Hide Resurrection Window
+Reset resurrections counting
+Switch between display modes (single counter or by player)
+
+To use this addon, you need to install dependencies :
+ - [URL="https://www.esoui.com/downloads/info7-LibAddonMenu.html"]LibAddonMenu-2.0[/URL]
+
+[URL="https://github.com/ImInfenix/TamrielAmbulance"]GitHub repository[/URL]

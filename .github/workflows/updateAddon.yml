@@ -10,6 +10,10 @@ on:
 env:
   ADDON_NAME: ${{ github.event.repository.name }}
   ADDON_ARCHIVE_NAME: ${{ github.event.repository.name }}.zip
+  ADDON_ID: 3124
+  ADDON_INFO_CHANGELOG_PATH: $GITHUB_WORKSPACE/.github/changelog.txt
+  ADDON_INFO_COMPATIBLE_PATH: $GITHUB_WORKSPACE/.github/changelog.txt
+  ADDON_INFO_DESCRIPTION_PATH: $GITHUB_WORKSPACE/.github/description.txt
   ESOUI_TOKEN: ${{ secrets.ADDON_UPDATE_API_TOKEN }}
   ZIP_EXCLUDE_FILE_PATH: $GITHUB_WORKSPACE/.github/excludeFiles.txt
 
@@ -35,3 +39,7 @@ jobs:
         with:
           name: ${{ env.ADDON_NAME }} ${{ github.event.inputs.version }}
           path: ${{ env.ADDON_ARCHIVE_NAME }}
+
+      - name: Send update to ESOUI
+        run: |
+            curl -H "x-api-token: ${{ env.ESOUI_TOKEN }}" -F "id=${{ env.ADDON_ID }}" -F "version=${{ github.event.inputs.version }}" -F "description=${{ env.ADDON_INFO_DESCRIPTION_PATH }}" -F "changelog=${{ env.ADDON_INFO_CHANGELOG_PATH }}" -F "compatible=${{ env.ADDON_INFO_COMPATIBLE_PATH }}" -F "updatefile=${{ env.ADDON_ARCHIVE_NAME }}" https://api.esoui.com/addons/updatetest
