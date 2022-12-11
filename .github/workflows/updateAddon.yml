@@ -28,6 +28,8 @@ jobs:
 
       - name: Zip AddOn content
         run:  |
+            echo "Listing existing files in working directory"
+            ls -aR
             echo "Zipping addon content to ${{ env.ADDON_ARCHIVE_NAME }}"
             7z a -xr@"${{ env.ZIP_EXCLUDE_FILE_PATH }}" ${{ env.ADDON_ARCHIVE_NAME }} ../${{ env.ADDON_NAME }}
             echo "Archive created. Listing content..."
