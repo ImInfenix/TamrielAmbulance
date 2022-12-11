@@ -1,11 +1,7 @@
 name: Update and deploy AddOn
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version'
-        required: true
+  workflow_dispatch: {}
 
 env:
   ADDON_NAME: ${{ github.event.repository.name }}
@@ -26,6 +22,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Retrieve Addon version
+        run:  |
+            
+            echo "ADDON_VERSION=$(cat ${{ env.ADDON_NAME }}.txt | grep AddOnVersion | awk {'print $3'})" >> $GITHUB_ENV
+
       - name: Zip AddOn content
         run:  |
             echo "Listing existing files in working directory"
@@ -43,6 +44,4 @@ jobs:
 
       - name: Send update to ESOUI
         run: |
-            echo "Description"
-            cat 
-            curl -H "x-api-token: ${{ env.ESOUI_TOKEN }}" -F "id=${{ env.ADDON_ID }}" -F "version=${{ github.event.inputs.version }}" -F "description=$(cat ${{ env.ADDON_INFO_DESCRIPTION_PATH }})" -F "changelog=$(cat ${{ env.ADDON_INFO_CHANGELOG_PATH }})" -F "compatible=$(cat ${{ env.ADDON_INFO_COMPATIBLE_PATH }})" -F "updatefile=@${{ env.ADDON_ARCHIVE_NAME }}" https://api.esoui.com/addons/updatetest
+            curl -H "x-api-token: ${{ env.ESOUI_TOKEN }}" -F "id=${{ env.ADDON_ID }}" -F "version=${{ env.ADDON_VERSION }}" -F "description=$(cat ${{ env.ADDON_INFO_DESCRIPTION_PATH }})" -F "changelog=$(cat ${{ env.ADDON_INFO_CHANGELOG_PATH }})" -F "compatible=$(cat ${{ env.ADDON_INFO_COMPATIBLE_PATH }})" -F "updatefile=@${{ env.ADDON_ARCHIVE_NAME }}" https://api.esoui.com/addons/updatetest
