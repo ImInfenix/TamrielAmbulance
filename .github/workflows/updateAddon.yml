@@ -26,10 +26,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: List all existing addons
-        run: |
-            curl -H "x-api-token: ${{ env.ESOUI_TOKEN }}" https://api.esoui.com/addons/list.json
-
       - name: Zip AddOn content
         run:  |
             echo "Zipping addon content to ${{ env.ADDON_ARCHIVE_NAME }}"
