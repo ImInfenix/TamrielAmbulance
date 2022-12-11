@@ -11,11 +11,11 @@ env:
   ADDON_NAME: ${{ github.event.repository.name }}
   ADDON_ARCHIVE_NAME: ${{ github.event.repository.name }}.zip
   ADDON_ID: 3124
-  ADDON_INFO_CHANGELOG_PATH: $GITHUB_WORKSPACE/.github/changelog.txt
-  ADDON_INFO_COMPATIBLE_PATH: $GITHUB_WORKSPACE/.github/changelog.txt
-  ADDON_INFO_DESCRIPTION_PATH: $GITHUB_WORKSPACE/.github/description.txt
+  ADDON_INFO_CHANGELOG_PATH: ${{ github.workspace }}/.github/changelog.txt
+  ADDON_INFO_COMPATIBLE_PATH: ${{ github.workspace }}/.github/changelog.txt
+  ADDON_INFO_DESCRIPTION_PATH: ${{ github.workspace }}/.github/description.txt
   ESOUI_TOKEN: ${{ secrets.ADDON_UPDATE_API_TOKEN }}
-  ZIP_EXCLUDE_FILE_PATH: $GITHUB_WORKSPACE/.github/excludeFiles.txt
+  ZIP_EXCLUDE_FILE_PATH: ${{ github.workspace }}/.github/excludeFiles.txt
 
 jobs:
   updateAddon:
