@@ -1,3 +1,5 @@
+1.2.9 - Updated to Firesong
+
 1.2.8 - Updated to Lost Depths
 
 1.2.7
