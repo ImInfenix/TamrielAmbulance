@@ -34,11 +34,11 @@ jobs:
         run:  |
             7z a -xr@"${{ env.ZIP_EXCLUDE_FILE_PATH }}" ${{ env.ADDON_ARCHIVE_NAME }} ../${{ env.ADDON_NAME }}
       
-      - name: Upload zip result to Github
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.ADDON_NAME }} ${{ github.event.inputs.version }}
-          path: ${{ env.ADDON_ARCHIVE_NAME }}
+      # - name: Upload zip result to Github
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{ env.ADDON_NAME }} ${{ github.event.inputs.version }}
+      #     path: ${{ env.ADDON_ARCHIVE_NAME }}
 
       - name: Send update to ESOUI
         run: |
