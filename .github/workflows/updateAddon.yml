@@ -15,7 +15,7 @@ env:
 
 jobs:
   updateAddon:
-    name: Update and deploy ${{ github.event.repository.name }} to version ${{ github.event.inputs.version }}
+    name: Update and deploy ${{ github.event.repository.name }}
     runs-on: ubuntu-latest
 
     steps:
@@ -29,18 +29,10 @@ jobs:
 
       - name: Zip AddOn content
         run:  |
-            echo "Listing existing files in working directory"
-            ls -aR
             echo "Zipping addon content to ${{ env.ADDON_ARCHIVE_NAME }}"
             7z a -xr@"${{ env.ZIP_EXCLUDE_FILE_PATH }}" ${{ env.ADDON_ARCHIVE_NAME }} ../${{ env.ADDON_NAME }}
             echo "Archive created. Listing content..."
             7z l ${{ env.ADDON_ARCHIVE_NAME }}
-      
-      # - name: Upload zip result to Github
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: ${{ env.ADDON_NAME }} ${{ github.event.inputs.version }}
-      #     path: ${{ env.ADDON_ARCHIVE_NAME }}
 
       - name: Send update to ESOUI
         run: |
