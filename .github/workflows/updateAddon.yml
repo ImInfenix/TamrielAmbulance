@@ -8,7 +8,7 @@ env:
   ADDON_ARCHIVE_NAME: ${{ github.event.repository.name }}.zip
   ADDON_ID: 3124
   ADDON_INFO_CHANGELOG_PATH: ${{ github.workspace }}/.github/changelog.txt
-  ADDON_INFO_COMPATIBLE_PATH: ${{ github.workspace }}/.github/changelog.txt
+  ADDON_INFO_COMPATIBLE_PATH: ${{ github.workspace }}/.github/compatible.txt
   ADDON_INFO_DESCRIPTION_PATH: ${{ github.workspace }}/.github/description.txt
   ESOUI_TOKEN: ${{ secrets.ADDON_UPDATE_API_TOKEN }}
   ZIP_EXCLUDE_FILE_PATH: ${{ github.workspace }}/.github/excludeFiles.txt
