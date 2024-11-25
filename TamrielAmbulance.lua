@@ -5,7 +5,7 @@ TamrielAmbulance.name = "TamrielAmbulance"
 TamrielAmbulance.prettyName = "Tamriel Ambulance"
 TamrielAmbulance.coloredName = "|cff0000Tamriel |c000000Ambulance|r"
 TamrielAmbulance.author = "|cff6600Infenix|r"
-TamrielAmbulance.version = "1.2.10"
+TamrielAmbulance.version = "1.2.11"
 TamrielAmbulance.website = "https://github.com/ImInfenix/TamrielAmbulance"
 
 -------------------------------------------------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ local function GetSortedTable(t, order)
     end
 
     -- if order function given, sort by it by passing the table and keys a, b,
-    -- otherwise just sort the keys 
+    -- otherwise just sort the keys
     if order then
         table.sort(keys, function(a, b)
             return order(t, a, b)
